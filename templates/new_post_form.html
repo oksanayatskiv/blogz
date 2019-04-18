@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+    
+    <div class = 'nav-links'>
+        <a href = '/'> Main Blog Page </a>
+        <a href= '/newpost'> Add a Blog Entery </a>
+    </div>    
+
+    <h1> Add a Blog Entery </h1>
+        <form atribute='/newpost' method = "post">
+            <table>
+                <div>    
+                    <label for = "title_field">Title for your new blog:</label>
+                    <input type = "text" id = "title_field" name = "title_field" value ="{{new_title}}"/>
+                </div>
+                
+                <div>
+                    <label for = "new_blog">Your new blog </label>
+                    <textarea name="new_blog" id = "new_blog">{{new_body}}</textarea> 
+                </div>
+                
+                <div>
+                    <input type="submit" id="submit" value ="Add entery" />
+                </div>  
+            </table>
+        </form>
+{% endblock %}
