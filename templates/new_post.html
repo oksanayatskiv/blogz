@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+       
+    <h1> Add a Blog Entery </h1>
+        <form action="/newpost" method ='POST' >
+                <div>    
+                    <label for = "blog_title">Title for your new blog:
+                    <input type = "text" id = "blog_title" name = "blog_title" />{{blog_title}}
+                    </label>
+                    <p class = "error">{{blog_title_error}}</p>
+                </div>
+
+                
+                <div>
+                    <label for = "blog_body">Your new blog: 
+                    <textarea name="blog_body" id = "blog_body">{{blog_body}}</textarea> 
+                    </label>
+                    <p class = "error">{{blog_body_error}}</p>
+                </div>
+                
+                <div>
+                    <input  class ="submit" type="submit" id="submit" value ="Add entery" />
+                </div> 
+        </form>
+
+{% endblock %}

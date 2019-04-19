@@ -1,20 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
+   
+    <h1>All Created Blogs</h1>
     
-    <nav>
-        <a href = '/'> Main Blog Page </a>
-        <a href= '/newpost'> Add a Blog Entery </a>
-    </nav>    
-
-
-
-    
-        <ul>
-            {% for task in tasks %}
-            <li>{{task}}</li>
+        <div>
+            {% for blog in blogs %}
+            <h2><a href= "/blog?id={{blog.id}}">{{blog.title}}</a></h2>
+            <p>{{blog.body}}</p>
+            <hr>
             {% endfor %}
-        </ul>
+        </div>
 
-    {% endif %}
+    
+    
 {% endblock %} 
