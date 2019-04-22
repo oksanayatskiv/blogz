@@ -69,7 +69,7 @@ def add_blog():
                 return render_template('new_post.html', blog_title_error=blog_title_error, blog_body=blog_body)
         elif not blog_body:
                 blog_body_error="Enter blog body" 
-                return render_template('new_post.html', blog_title=blog_title, blog_body_error=blog_body_error)   
+                return render_template('new_post.html', blog_body_error=blog_body_error, blog_title=blog_title)   
                 
         else:
             if blog_title and blog_body:
