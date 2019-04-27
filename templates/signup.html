@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1> Signup </h1>
+            <form atribute='/val_signup' method = "post">
+                <table>
+                    <p><label for = "username">Username
+                        <input type = "text" name ="username" id="username" value = '{{username}}'></label>
+                    <span class= "error">{{name_error}}<span></p>
+                                            
+                    <p><label for = "password">Password 
+                        <input type = "password" name ="password" id="password" value ='{{password}}'></label>
+                    <span class= "error">{{password_error}}</span></p>
+                                            
+                    <p><label for = "verify">Verify Password    
+                        <input type = "password" name ="verify" id="verify" value = '{{verify}}'/></label>
+                    <span class= "error">{{verify_error}}</span></p>
+
+                    <input type= "submit" value = "Submit"/>
+                </table>
+            </form>
+{% endblock %}

@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
     <head>
-        <title>Build Blog</title>
+        <title>Blogz</title>
         <style>
                 h1{
                     text-align: center;
@@ -14,9 +14,16 @@
 <body>
     <header>    
         <nav>
-            <a href = '/blog'> Main Blog Page  </a> |
-            <a href= '/newpost'>  Add a Blog Entery </a>
-        </nav>
+            <ul>
+                <a href = '/'> Home  </a> |
+                <a href= '/newpost'>  Add a Blog Entery </a> |
+                <a href= '/blog'> All posts </a> |
+            </ul>   
+            <ul>
+                <a href= '/login'> Login </a> |
+                <a href= '/logout'> Logout </a>
+            </ul>    
+        </nav>   
     </header>
 
     {% block content %}
