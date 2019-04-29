@@ -43,6 +43,12 @@ def all_blogs():
     # first of the pair matches to {{}} loop in the main_form.html template, second matches to variable post 
     return render_template('main_form.html', blogs=posted_blogs)
 """
+@app.before_request
+def require_login():
+        allowed_routes = ['login', 'signup','index','blog']
+        if request.endpoint not in allowed_routes  and 'username' not in session:
+                return redirect('/login')
+
 #specify all request
 @app.route("/login", methods=['GET', 'POST'])
 def login():
@@ -74,7 +80,8 @@ def login():
         #not login return back to form
         return render_template('login.html', username_error=username_error,password_error=password_error)
         
-
+#ask about session in log in and registration
+#ask about login function redirect on /login should be present or it will do it automaticaly
     
         
 
@@ -88,39 +95,54 @@ def signup():
                 username = request.form['username']
                 password = request.form['password']
                 verify = request.form['verify']
-
+                #validation user name
+                #no user name was entered
                 if username == "":
-                        name_error = "Username cannot be blank"
-                if password == "":
+                        name_error = "Please enter your name"
+                #length user name less than 3
+                if len(username) < 3:
+                        name_error = "Enter user name. It should be at least 3 chararcters"
+                #validaion password
+                #no password was entered
+                if password == "" or verify== "":
                         password_error = "Password cannot be blank"
+                        verify_error= "Password cannot be blank"
+                #length of password less than 3
+                elif len(password)< 3:
+                        password_error = " Password too short. It should be at least 3 chararcters"
+                #if passwords don't mathch
                 else:
-                if password != verify:
-                        error["verify_error"] = "Pasword and Verify must match"
+                        if password != verify:
+                                verify_error = "Passwords must match"
 
                 existing_user = User.query.filter_by(username=username).first()
                 if existing_user:
-                error["name_error"] = "There is already somebody with that username"
+                        name_error = "There is already somebody with that username"
 
-                if error["name_error"] == "" and error["pass_error"] == "" and error["verify_error"] == "":
-                new_user = User(username, password)
-                db.session.add(new_user)
-                db.session.commit()
-                session['user'] = new_user.username
-                return redirect("/blog")
+                if name_error == "" and password_error== "" and verify_error== "":
+                #create new user
+                        new_user = User(username, password)
+                #add it in db
+                        db.session.add(new_user)
+                        db.session.commit()
+                #add new_ser to session
+                        session['user'] = new_user.username
+                        return redirect("/newpost")
 
-    return render_template("register.html", title= "Register for this Blog",
-        name_error= error["name_error"], pass_error= error["pass_error"],
-        verify_error= error["verify_error"])
+        return render_template("signup.html", title= "Register for this Blog",
+        name_error= name_error, password_error= password_error,
+        verify_error= verify_error)
 
-"""
+#redirectt to home
 @app.route("/")
 def index():
+        all_users= User.query_all()
+        return redirect('index.html', users= all_users)
 
-@app.route("/logout", methods=['POST'])
+@app.route("/logout")
 def logout():
     del session['username']
     return redirect("/blog")
-"""
 
 #display Each Blog Post
 @app.route('/blog')
@@ -143,7 +165,8 @@ def add_blog():
         blog_title = request.form['blog_title']
         blog_body = request.form['blog_body']
     #create object
-        new_blogs = Blog(blog_title,blog_body)
+        #new_blogs = Blog(blog_title,blog_body)
+        owner = User.query.filter_by(username=session['username']).first()
         
         
         blog_title_error = ""
@@ -162,6 +185,7 @@ def add_blog():
                 
         else:
             if blog_title and blog_body:
+                new_blogs = Blog(blog_title,blog_body, owner)
                 db.session.add(new_blogs)
                 db.session.commit()
                 return redirect ('/blog?id={}'.format(new_blogs.id))
