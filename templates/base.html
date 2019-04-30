@@ -12,18 +12,25 @@
         </style>
     </head>
 <body>
-    <header>    
+    <header>
+        
         <nav>
                 <a href = '/'> Home  </a> |
                 <a href= '/blog'> All posts </a> |
-        
-                <a href= '/login'> Login </a> |
-                <a href= '/logout'> Logout </a>   
+                <a href='/newpost'>New Post</a>
+        </nav>
+        <nav style='float: right'>
+            {% if session['username'] %}
+                {{ session ['username'] }}   
+            {% else %}   
+            {% endif %}
+                <a href= '/logout'> Logout </a>|    
+                <a href= '/login'> Login </a>  
         </nav>   
     </header>
-
-    {% block content %}
-    {% endblock %}
+    
 
 </body>
 </html> 
+{% block content %}
+        {% endblock %}
