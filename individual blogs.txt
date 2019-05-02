@@ -1,0 +1,11 @@
+individual blogs
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Individual Blog Post</h1>
+    <div> 
+        <h2>{{blog.title}}</h2>
+        <p>{{blog.body}}</p>
+        <p>Posted by: <a href='/blog?user={{blog.owner.username}}'>{{blog.owner.username}}</a></p>
+    </div>           
+{% endblock %}

@@ -163,28 +163,25 @@ def blog():
                         return render_template('main_form.html', blogs=posted_blogs, title='Build-a-blog')
 """
 
-@app.route('/blog', methods = ['GET'])
+@app.route('/blog', methods = ['POST', 'GET'])
 def blog():
-        # all blogs from db
-        all_blogs = Blog.query.all()
-        #looking by the primary key
         blog_id = request.args.get('id')
-        blog = Blog.query.filter_by(id=blog_id).first()
-        user_name = request.args.get('user')
-        user=User.query.filter_by(username=user_name).first()
-        user_blogs = Blog.query.filter_by(owner=user).all()
-
-# if we didn't select user
-        if not blog_id and not user_name:
-                return render_template('main_form.html', blogs=all_blogs) 
+        user_id = request.args.get('userid')
+                 
 
 # if we select blog
-        elif blog_id:
-                return render_template('individual_blogs.html', blog = blog, user=user, user_blogs=user_blogs )
+        if blog_id:
+                blog = Blog.query.filter_by(id=blog_id).first()
+                return render_template('individual_blogs.html', title=blog.title, body=blog.body,blog = blog, user=user_id)
 #if we select user 
-        elif user_name:
-                return render_template('userposts.html', blog=blog, user=user, user_blogs= user_blogs )
-                
+        else:
+                if user_id:
+                        user_blogs = Blog.query.filter_by(owner_id=user_id).all()
+                        return render_template('userposts.html', user_blogs = user_blogs )
+                else: 
+                        all_blogs = Blog.query.all()
+                        return render_template('main_form.html', blogs=all_blogs)
+
 @app.route('/newpost', methods = ['GET','POST'] )
 def add_blog():
     if request.method == 'POST':
